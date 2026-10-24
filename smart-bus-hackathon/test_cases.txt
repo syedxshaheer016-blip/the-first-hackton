@@ -1,0 +1,91 @@
+SMART BUS RESERVATION SYSTEM - TEST PLAN
+========================================
+Project: Smart Bus Ticket Booking & Reservation System
+Environment: Python 3 (Arch Linux)
+
+This document records the testing phase for the core requirements.
+All tests were performed on main.py (console) and web_gui.py (web interface).
+
+------------------------------------------------------------------
+TC-01 | View all routes
+Input/Action: Choose 'View Available Routes'.
+Expected Result: All five routes and seat status appear.
+Actual Result: All 5 routes display with correct available/total seats.
+Status: PASS
+
+------------------------------------------------------------------
+TC-02 | Search Hyderabad
+Input/Action: Search by city 'Hyderabad'.
+Expected Result: Routes departing from or arriving at Hyderabad appear.
+Actual Result: R101, R103, and R105 correctly appear in the results.
+Status: PASS
+
+------------------------------------------------------------------
+TC-03 | Unknown city
+Input/Action: Search for 'Atlantis'.
+Expected Result: No-match message; program continues.
+Actual Result: Displays "No routes found for 'atlantis'" and returns to menu safely.
+Status: PASS
+
+------------------------------------------------------------------
+TC-04 | Book two seats
+Input/Action: Book: Ahmed, age 24, Route R101, 2 seats.
+Expected Result: Booking confirmed for Rs. 2,400; R101 availability drops by 2.
+Actual Result: Booking B1001 generated. Fare is Rs. 2400. R101 seats drop from 40 to 38.
+Status: PASS
+
+------------------------------------------------------------------
+TC-05 | Zero seats
+Input/Action: Attempt booking with 0 seats.
+Expected Result: Reject; no booking or seat change.
+Actual Result: Rejects with error: "Seat quantity must be a positive integer."
+Status: PASS
+
+------------------------------------------------------------------
+TC-06 | Too many seats
+Input/Action: Request more seats than available.
+Expected Result: Reject; availability never becomes negative.
+Actual Result: Rejects with error: "Only X seat(s) available on R101."
+Status: PASS
+
+------------------------------------------------------------------
+TC-07 | Cancel confirmed booking
+Input/Action: Enter a Confirmed booking ID (e.g., B1001).
+Expected Result: Status changes and correct seats are restored.
+Actual Result: Booking marked as 'Cancelled'. R101 seats restored to 40.
+Status: PASS
+
+------------------------------------------------------------------
+TC-08 | Cancel same booking again
+Input/Action: Repeat cancelled ID (e.g., B1001).
+Expected Result: Reject; no additional seat restoration.
+Actual Result: Rejects with error: "Booking B1001 is already cancelled."
+Status: PASS
+
+------------------------------------------------------------------
+TC-09 | Report with no bookings
+Input/Action: Generate report on a fresh session (empty list).
+Expected Result: Booking totals/revenue zero; route status still counted.
+Actual Result: Revenue is Rs. 0, bookings are 0. Fully booked routes count is still accurate.
+Status: PASS
+
+------------------------------------------------------------------
+TC-10 | Book all seats
+Input/Action: Request exactly the remaining seats on a route.
+Expected Result: Booking succeeds; availability zero; Fully Booked status.
+Actual Result: Booking succeeds. Availability drops to 0. UI displays 'FULLY BOOKED'.
+Status: PASS
+
+------------------------------------------------------------------
+TC-11 | Report after cancellation
+Input/Action: Cancel booking B1001, then generate report.
+Expected Result: Cancelled count increases; cancelled fare excluded.
+Actual Result: Cancelled count is 1. Total revenue excludes the cancelled Rs. 2400.
+Status: PASS
+
+------------------------------------------------------------------
+TC-12 | Invalid menu option
+Input/Action: Enter unsupported text/number (e.g., 'abc' or '99').
+Expected Result: Helpful error; program returns to menu.
+Actual Result: Prints "Invalid choice. Please enter a number from 1 to 8."
+Status: PASS
